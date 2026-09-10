@@ -6,7 +6,7 @@
 <title>TCCA — Chuyện của chúng ta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/x-icon" href="heart.svg">
 <style>
   html { scroll-behavior: smooth; }
@@ -98,6 +98,63 @@
       opacity: .7;
     }
   }
+
+  /* ── Thư: chữ mờ, bôi đen mới đọc được ─────────────────── */
+  .letter-card { cursor: text; }
+
+  /* Chữ trong suốt + bóng nhòe = mờ không đọc được */
+  .letter-card .blur { color: transparent; }
+  .letter-card .blur.ink   { text-shadow: 0 0 10px rgba(58, 42, 28, .58); }
+  .letter-card .blur.brown { text-shadow: 0 0 10px rgba(124, 74, 42, .62); }
+  /* Chữ càng lớn thì bóng phải nhòe rộng hơn mới đủ khó đọc */
+  .letter-card .blur.lead  { text-shadow: 0 0 14px rgba(124, 74, 42, .62); }
+  .letter-card .blur.sign  { text-shadow: 0 0 14px rgba(124, 74, 42, .62); }
+  .letter-card .blur.date  { text-shadow: 0 0 8px rgba(110, 90, 70, .60); }
+
+  .letter-heading {
+    margin: 0 0 clamp(18px, 2.6vw, 26px);
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(26px, 3.8vw, 34px);
+    line-height: 1.3;
+  }
+  .letter-body {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: clamp(18px, 2.2vw, 21px);
+    line-height: 1.85;
+  }
+  .letter-body p { margin: 0 0 .8em; text-wrap: pretty; }
+  .letter-body p:last-child { margin-bottom: 0; }
+  .letter-foot {
+    margin-top: clamp(26px, 4vw, 38px);
+    padding-top: clamp(18px, 3vw, 23px);
+    text-align: right;
+  }
+  .letter-date {
+    margin: 0 0 clamp(6px, 1.2vw, 12px);
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: clamp(16px, 2.1vw, 19px);
+    line-height: 1.4;
+  }
+  .letter-sign {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(25px, 3.4vw, 32px);
+  }
+
+  /* Bôi đen: ::selection ghi đè màu chữ và xóa bóng nhòe */
+  .letter-card ::selection {
+    color: #3A2A1C;
+    background: #E3D0AF;
+    text-shadow: none;
+  }
+  .letter-card ::-moz-selection {
+    color: #3A2A1C;
+    background: #E3D0AF;
+    text-shadow: none;
+  }
 </style>
 </head>
 <body>
@@ -109,7 +166,7 @@
     <div style="position:relative;max-width:1000px;margin:0 auto;text-align:center">
       <p style="margin:0 0 clamp(22px,3vw,34px);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46;animation:riseIn .9s ease both">Chuyện của chúng ta</p>
       <h1 style="margin:0;font-weight:500;font-size:clamp(58px,15vw,168px);line-height:.92;letter-spacing:.02em;animation:riseIn 1s ease .1s both">TCCA</h1>
-      <p style="max-width:36ch;margin:clamp(22px,4vw,36px) auto 0;font-size:clamp(17px,2.3vw,22px);line-height:1.75;color:#6B5847;text-wrap:pretty;animation:riseIn 1s ease .2s both">Một trang nhỏ để giữ lại những gì mình không muốn quên và những gì đã từng rất thật.</p>
+      <p style="max-width:36ch;margin:clamp(22px,4vw,36px) auto 0;font-size:clamp(17px,2.3vw,20px);line-height:1.75;color:#6B5847;text-wrap:pretty;animation:riseIn 1s ease .2s both">Một trang nhỏ để giữ lại những gì mình không muốn quên và những gì đã từng rất thật.</p>
 
       <figure style="position:relative;width:min(820px,100%);margin:clamp(40px,6vw,72px) auto 0;animation:riseIn 1.1s ease .3s both">
         <img src="/design/foscthfoscthfosc.png" alt="Hai người nắm tay nhau nhìn ra biển"
@@ -120,15 +177,15 @@
   </section>
 
   <section style="padding:clamp(28px,5vw,64px) clamp(20px,5vw,64px) clamp(72px,10vw,140px);background:#EFE6D6;border-top:1px solid rgba(51,38,27,.10)">
-    <div style="max-width:720px;margin:0 auto;background:#FBF6EA;border:1px solid rgba(51,38,27,.12);padding:clamp(30px,6vw,68px);box-shadow:0 22px 50px -38px rgba(51,38,27,.5)">
-      <p style="margin:0 0 clamp(22px,3vw,30px);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">Dear TCCA.</p>
-      <div style="font-size:clamp(16px,2.3vw,16px);color:#33261B">
-        <p style="text-wrap:pretty">Anh chỉ mong em sau này, dù cuộc sống có thế nào, mọi chuyện vẫn luôn thuận lợi và bình an.</p>
-        <p style="text-wrap:pretty">Cảm ơn em vì đã từng xuất hiện, từng thương anh và cho anh những khoảng thời gian thật đẹp.</p>
-        <p style="margin:0;font-style:italic;color:#7C4A2A">Chúc em luôn mạnh khỏe, bình yên và hạnh phúc.</p>
+    <div class="letter-card" style="max-width:720px;margin:0 auto;background:#FBF6EA;border:1px solid rgba(51,38,27,.12);padding:clamp(30px,6vw,68px);box-shadow:0 22px 50px -38px rgba(51,38,27,.5)">
+      <p class="letter-heading blur lead">Gửi TCCA,</p>
+      <div class="letter-body">
+        <p class="blur ink">Anh chỉ mong em sau này, dù cuộc sống có thế nào, mọi chuyện vẫn luôn thuận lợi và bình an.</p>
+        <p class="blur ink">Cảm ơn em vì đã từng xuất hiện, từng thương anh và cho anh những khoảng thời gian thật đẹp.</p>
+        <p class="blur brown">Chúc em luôn mạnh khỏe, bình yên và hạnh phúc.</p>
       </div>
-      <div style="margin-top:clamp(26px,4vw,38px);padding-top:clamp(18px,3vw,23px);border-top:1px solid rgba(51,38,27,.12)">
-        <span style="font-style:italic;font-size:20px">Anhhhh!</span>
+      <div class="letter-foot">
+        <p class="letter-date blur date">Hà Nội, Ngày... Tháng... Năm...</p>
       </div>
     </div>
     <p style="margin:clamp(40px,6vw,64px) 0 0;text-align:center;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">TCCA</p>
