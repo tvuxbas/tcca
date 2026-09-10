@@ -22,38 +22,80 @@
     width: 58px;
     height: 58px;
 
-    border: 1px solid rgba(255,255,255,.6);
+    border: 1px solid rgba(255,255,255,.8);
     border-radius: 50%;
 
-    background: rgba(255, 182, 193, 0.85);
+    background: rgba(255, 182, 193, .9);
     color: white;
 
     font-size: 25px;
     cursor: pointer;
 
-    box-shadow: 0 0 20px rgba(255, 105, 135, .5);
+    box-shadow: 0 0 15px rgba(255, 105, 135, .45);
 
-    transition: .3s;
     z-index: 9999;
+
+    /* Nhấp nháy */
+    animation: attention 1.5s ease-in-out infinite;
+  }
+
+  /* Vòng sáng để thu hút sự chú ý */
+  #musicBtn::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 105, 135, .5);
+
+    animation: ripple 1.8s ease-out infinite;
   }
 
   #musicBtn:hover {
     transform: scale(1.12);
   }
 
+  /* Khi đang phát nhạc thì bỏ hiệu ứng "hãy click" */
   #musicBtn.playing {
-    animation: pulse 1.5s infinite;
+    animation: none;
   }
 
-  @keyframes pulse {
+  #musicBtn.playing::before {
+    animation: musicPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes attention {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    50% {
+      transform: scale(1.12);
+      opacity: .7;
+    }
+  }
+
+  @keyframes ripple {
     0% {
-      box-shadow: 0 0 0 0 rgba(255,105,135,.6);
+      transform: scale(.8);
+      opacity: .8;
     }
-    70% {
-      box-shadow: 0 0 0 15px rgba(255,105,135,0);
-    }
+
     100% {
-      box-shadow: 0 0 0 0 rgba(255,105,135,0);
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @keyframes musicPulse {
+    0%, 100% {
+      transform: scale(.9);
+      opacity: .3;
+    }
+
+    50% {
+      transform: scale(1.15);
+      opacity: .7;
     }
   }
 </style>
@@ -88,16 +130,17 @@
       <div style="margin-top:clamp(26px,4vw,38px);padding-top:clamp(18px,3vw,23px);border-top:1px solid rgba(51,38,27,.12)">
         <span style="font-style:italic;font-size:20px">Anhhhh!</span>
       </div>
-      <button id="musicBtn" onclick="toggleMusic()">♡</button>
     </div>
     <p style="margin:clamp(40px,6vw,64px) 0 0;text-align:center;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">TCCA</p>
   </section>
 
 </div>
-<audio id="bgMusic" autoplay loop style="display: none;">
+<audio id="bgMusic" loop>
   <source src="guinganloiyeu.mp3" type="audio/mpeg">
 </audio>
-
+<button id="musicBtn" onclick="toggleMusic()" aria-label="Phát nhạc">
+  ♡
+</button>
 <script>
   const music = document.getElementById("bgMusic");
   const musicBtn = document.getElementById("musicBtn");
