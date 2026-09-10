@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #F6EFE2; }
+  a { color: #7C4A2A; text-decoration: none; }
+  a:hover { color: #4E2C16; }
+  @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="background:#F6EFE2;color:#33261B;font-family:Lora,Georgia,'Times New Roman',serif;font-weight:400;overflow-x:hidden">
+
+  <section style="position:relative;padding:clamp(56px,9vw,120px) clamp(20px,5vw,64px) clamp(56px,8vw,100px)">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg, rgba(51,38,27,.035) 0 1px, rgba(51,38,27,0) 1px 4px);pointer-events:none"></div>
+    <div style="position:relative;max-width:1000px;margin:0 auto;text-align:center">
+      <p style="margin:0 0 clamp(22px,3vw,34px);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46;animation:riseIn .9s ease both">Chuyện của chúng ta</p>
+      <h1 style="margin:0;font-weight:500;font-size:clamp(58px,15vw,168px);line-height:.92;letter-spacing:.02em;animation:riseIn 1s ease .1s both">TCCA</h1>
+      <p style="max-width:36ch;margin:clamp(22px,4vw,36px) auto 0;font-size:clamp(17px,2.3vw,22px);line-height:1.75;color:#6B5847;text-wrap:pretty;animation:riseIn 1s ease .2s both">Một trang nhỏ để giữ lại những gì mình không muốn quên: những chỗ mình đã đi, và những gì đã từng rất thật.</p>
+
+      <div style="position:relative;width:min(820px,100%);margin:clamp(40px,6vw,72px) auto 0;aspect-ratio:16/9;animation:riseIn 1.1s ease .3s both">
+        <image-slot id="tcca-hero" shape="rounded" radius="4" placeholder="ảnh của hai bạn — kéo vào đây"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(28px,5vw,64px) clamp(20px,5vw,64px) clamp(72px,10vw,140px);background:#EFE6D6;border-top:1px solid rgba(51,38,27,.10)">
+    <div style="max-width:720px;margin:0 auto;background:#FBF6EA;border:1px solid rgba(51,38,27,.12);padding:clamp(30px,6vw,68px);box-shadow:0 22px 50px -38px rgba(51,38,27,.5)">
+      <p style="margin:0 0 clamp(22px,3vw,30px);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">Thư gửi bạn</p>
+      <div style="font-size:clamp(18px,2.3vw,23px);line-height:1.85;color:#33261B">
+        <p style="margin:0 0 1.2em;text-wrap:pretty">Có những hôm anh không nói gì cả, chỉ ngồi cạnh và thấy đủ. Chỗ này để bạn viết lại lời của mình — dài ngắn không quan trọng, thật là được.</p>
+        <p style="margin:0 0 1.2em;text-wrap:pretty">Cảm ơn vì đã kiên nhẫn với những ngày anh khó chịu, vì vẫn nhớ anh không ăn được gì, vì những tin nhắn lúc một giờ sáng.</p>
+        <p style="margin:0;font-style:italic;color:#7C4A2A">Và nếu được chọn lại, vẫn là em.</p>
+      </div>
+      <div style="margin-top:clamp(26px,4vw,38px);padding-top:clamp(18px,3vw,26px);border-top:1px solid rgba(51,38,27,.12)">
+        <span style="font-style:italic;font-size:20px">— của bạn</span>
+      </div>
+    </div>
+    <p style="margin:clamp(40px,6vw,64px) 0 0;text-align:center;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">TCCA</p>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+
+</script>
+</body>
+</html>
