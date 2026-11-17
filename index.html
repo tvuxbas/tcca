@@ -99,24 +99,36 @@
     }
   }
 
-  /* ── Thư: chữ mờ, bôi đen mới đọc được ─────────────────── */
-  .letter-card { cursor: text; }
-
-  /* Chữ trong suốt + bóng nhòe = mờ không đọc được */
-  .letter-card .blur { color: transparent; }
-  .letter-card .blur.ink   { text-shadow: 0 0 10px rgba(58, 42, 28, .58); }
-  .letter-card .blur.brown { text-shadow: 0 0 10px rgba(124, 74, 42, .62); }
-  /* Chữ càng lớn thì bóng phải nhòe rộng hơn mới đủ khó đọc */
-  .letter-card .blur.lead  { text-shadow: 0 0 14px rgba(124, 74, 42, .62); }
-  .letter-card .blur.sign  { text-shadow: 0 0 14px rgba(124, 74, 42, .62); }
-  .letter-card .blur.date  { text-shadow: 0 0 8px rgba(110, 90, 70, .60); }
+  /* ── Thư: phần giữa chỉ là các vệt mờ giả chữ, không có nội dung ── */
+  .letter-card .ghost-line {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    align-items: center;
+    gap: .3em;
+    height: 1.85em;
+    max-width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
+  .letter-card .ghost-line i {
+    display: block;
+    flex: 0 1 auto;
+    height: .75em;
+    border-radius: 999px;
+    background: rgba(58, 42, 28, .24);
+    filter: blur(8px);
+  }
+  .letter-card .ghost-line.brown i { background: rgba(124, 74, 42, .28); }
+  .letter-card .ghost-gap { height: .8em; }
 
   .letter-heading {
     margin: 0 0 clamp(18px, 2.6vw, 26px);
     font-family: 'Dancing Script', cursive;
-    font-weight: 600;
-    font-size: clamp(26px, 3.8vw, 34px);
-    line-height: 1.3;
+    /*font-weight: 600;*/
+    font-size: clamp(22px, 3.8vw, 22px);
+    /*line-height: 1.3;*/
   }
   .letter-body {
     font-family: 'Dancing Script', cursive;
@@ -144,17 +156,80 @@
     font-size: clamp(25px, 3.4vw, 32px);
   }
 
-  /* Bôi đen: ::selection ghi đè màu chữ và xóa bóng nhòe */
-  .letter-card ::selection {
-    color: #3A2A1C;
-    background: #E3D0AF;
-    text-shadow: none;
+
+  /* ── Playlist ───────────────────────────────────────────── */
+  #playlist {
+    position: fixed;
+    right: 25px;
+    bottom: 95px;
+    z-index: 9998;
+
+    min-width: 210px;
+    padding: 7px;
+
+    background: rgba(251, 246, 234, .97);
+    border: 1px solid rgba(51, 38, 27, .14);
+    border-radius: 14px;
+    box-shadow: 0 18px 40px -22px rgba(51, 38, 27, .55);
+
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+
+    /* Mặc định ẩn */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(.96);
+    transform-origin: bottom right;
+    transition: opacity .25s ease, transform .25s ease, visibility .25s;
   }
-  .letter-card ::-moz-selection {
-    color: #3A2A1C;
-    background: #E3D0AF;
-    text-shadow: none;
+  #playlist.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
   }
+
+  #playlist .pl-title {
+    padding: 6px 10px 8px;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #A0907C;
+  }
+
+  #playlist .track {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 9px 11px;
+
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    color: #5A4733;
+    text-align: left;
+    cursor: pointer;
+
+    transition: background .2s ease, color .2s ease;
+  }
+  #playlist .track:hover { background: rgba(51, 38, 27, .06); }
+  #playlist .track.active {
+    background: rgba(255, 182, 193, .28);
+    color: #7C4A2A;
+    font-weight: 500;
+  }
+  /* Chấm tròn / nốt nhạc ở đầu mỗi bài */
+  #playlist .track .dot {
+    flex: 0 0 auto;
+    width: 14px;
+    font-size: 11px;
+    color: #C9B49A;
+  }
+  #playlist .track.active .dot { color: #E8899B; }
 </style>
 </head>
 <body>
@@ -178,41 +253,98 @@
 
   <section style="padding:clamp(28px,5vw,64px) clamp(20px,5vw,64px) clamp(72px,10vw,140px);background:#EFE6D6;border-top:1px solid rgba(51,38,27,.10)">
     <div class="letter-card" style="max-width:720px;margin:0 auto;background:#FBF6EA;border:1px solid rgba(51,38,27,.12);padding:clamp(30px,6vw,68px);box-shadow:0 22px 50px -38px rgba(51,38,27,.5)">
-      <p class="letter-heading blur lead">Gửi TCCA,</p>
-      <div class="letter-body">
-        <p class="blur ink">Anh chỉ mong em sau này, dù cuộc sống có thế nào, mọi chuyện vẫn luôn thuận lợi và bình an.</p>
-        <p class="blur ink">Cảm ơn em vì đã từng xuất hiện, từng thương anh và cho anh những khoảng thời gian thật đẹp.</p>
-        <p class="blur brown">Chúc em luôn mạnh khỏe, bình yên và hạnh phúc.</p>
+      <p class="letter-heading" style="color:#7C4A2A">Gửi TCCA,</p>
+      <div class="letter-body" aria-hidden="true">
+          <div class="ghost-line"><i style="width:3.2em"></i><i style="width:2.1em"></i><i style="width:4.4em"></i><i style="width:1.6em"></i><i style="width:3.8em"></i><i style="width:2.6em"></i><i style="width:5.1em"></i><i style="width:2.2em"></i><i style="width:3.3em"></i></div>
+          <div class="ghost-line"><i style="width:4.1em"></i><i style="width:2.8em"></i><i style="width:1.9em"></i><i style="width:3.6em"></i><i style="width:2.4em"></i><i style="width:4.7em"></i><i style="width:3.0em"></i><i style="width:2.2em"></i></div>
+          <div class="ghost-line"><i style="width:2.6em"></i><i style="width:3.4em"></i><i style="width:2.0em"></i><i style="width:5.2em"></i><i style="width:1.8em"></i><i style="width:3.1em"></i></div>
+          <div class="ghost-gap"></div>
+          <div class="ghost-line"><i style="width:3.6em"></i><i style="width:2.3em"></i><i style="width:4.0em"></i><i style="width:1.7em"></i><i style="width:3.2em"></i><i style="width:2.9em"></i><i style="width:4.6em"></i><i style="width:2.1em"></i><i style="width:2.8em"></i></div>
+          <div class="ghost-line"><i style="width:2.4em"></i><i style="width:4.3em"></i><i style="width:3.1em"></i><i style="width:2.0em"></i><i style="width:3.8em"></i><i style="width:2.7em"></i><i style="width:4.4em"></i><i style="width:1.9em"></i></div>
+          <div class="ghost-line"><i style="width:3.9em"></i><i style="width:2.2em"></i><i style="width:4.8em"></i><i style="width:2.6em"></i></div>
+          <div class="ghost-gap"></div>
+          <div class="ghost-line brown"><i style="width:2.8em"></i><i style="width:3.5em"></i><i style="width:4.1em"></i><i style="width:2.2em"></i><i style="width:3.7em"></i><i style="width:4.9em"></i><i style="width:2.4em"></i></div>
       </div>
       <div class="letter-foot">
-        <p class="letter-date blur date">Hà Nội, Ngày... Tháng... Năm...</p>
+        <p class="letter-date" style="color:#6E5A46">Hà Nội, Ngày... Tháng... Năm...</p>
       </div>
     </div>
     <p style="margin:clamp(40px,6vw,64px) 0 0;text-align:center;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#6E5A46">TCCA</p>
   </section>
 
 </div>
-<audio id="bgMusic" loop>
-  <source src="guinganloiyeu.mp3" type="audio/mpeg">
-</audio>
-<button id="musicBtn" onclick="toggleMusic()" aria-label="Phát nhạc">
+<audio id="bgMusic"></audio>
+
+<div id="playlist" role="listbox" aria-label="Danh sách bài hát">
+  <div class="pl-title">Nhạc nền</div>
+</div>
+
+<button id="musicBtn" aria-label="Phát nhạc">
   ♡
 </button>
 <script>
-  const music = document.getElementById("bgMusic");
-  const musicBtn = document.getElementById("musicBtn");
+  const PLAYLIST = [
+    { src: "guinganloiyeu.mp3",  title: "Gửi Ngàn Lời Yêu" },
+    { src: "votinhdanhroi.mp3",  title: "Vô Tình Đánh Rơi" }
+  ];
 
-  function toggleMusic() {
+  const music    = document.getElementById("bgMusic");
+  const musicBtn = document.getElementById("musicBtn");
+  const panel    = document.getElementById("playlist");
+
+  let current = 0;
+
+  // Dựng danh sách bài hát
+  PLAYLIST.forEach(function (t, i) {
+    const b = document.createElement("button");
+    b.className = "track";
+    b.type = "button";
+    b.innerHTML = '<span class="dot">○</span><span>' + t.title + '</span>';
+    b.addEventListener("click", function () { selectTrack(i); });
+    panel.appendChild(b);
+  });
+  const trackEls = panel.querySelectorAll(".track");
+
+  function syncUI() {
+    const playing = !music.paused;
+    musicBtn.innerHTML = playing ? "♫" : "♡";
+    musicBtn.classList.toggle("playing", playing);
+
+    trackEls.forEach(function (el, i) {
+      const active = i === current;
+      el.classList.toggle("active", active);
+      el.querySelector(".dot").textContent = (active && playing) ? "♪" : "○";
+    });
+  }
+
+  function selectTrack(i) {
+    current = (i + PLAYLIST.length) % PLAYLIST.length;
+    music.src = PLAYLIST[current].src;
+    music.play().catch(function () { syncUI(); });
+    panel.classList.add("open");
+  }
+
+  musicBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
     if (music.paused) {
-      music.play();
-      musicBtn.innerHTML = "♫";
-      musicBtn.classList.add("playing");
+      if (!music.src) { selectTrack(current); }
+      else { music.play().catch(function () {}); panel.classList.add("open"); }
     } else {
       music.pause();
-      musicBtn.innerHTML = "♡";
-      musicBtn.classList.remove("playing");
     }
-  }
+  });
+
+  // Hết bài thì tự chuyển sang bài kế, hết danh sách thì quay lại đầu
+  music.addEventListener("ended", function () { selectTrack(current + 1); });
+  music.addEventListener("play",  syncUI);
+  music.addEventListener("pause", syncUI);
+
+  // Bấm ra ngoài để đóng danh sách
+  document.addEventListener("click", function (e) {
+    if (!panel.contains(e.target)) { panel.classList.remove("open"); }
+  });
+
+  syncUI();
 </script>
 </body>
 </html>
